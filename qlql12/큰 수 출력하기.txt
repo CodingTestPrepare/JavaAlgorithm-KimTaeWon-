@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        String[] line = sc.nextLine().split(" ");
+        String output = "";
+
+        output += line[0];
+        for (int i = 1; i < n; i++) {
+            if(Integer.parseInt(line[i-1]) < Integer.parseInt(line[i])) {
+                output = output + " " + line[i];
+            }
+        }
+        System.out.print(output);
+    }
+}
