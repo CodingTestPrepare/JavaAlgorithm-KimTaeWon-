@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        f(n);
+    }
+
+    private void f(int n) {
+        int x = 1;
+        int y = 1;
+        int z = 0;
+        System.out.print(x + " " + y + " ");
+
+        for (int i = 2; i < n; i++) {
+            z = x + y;
+            System.out.print(z + " ");
+            x = y;
+            y = z;
+        }
+    }
+}
