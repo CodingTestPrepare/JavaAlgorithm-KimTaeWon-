@@ -25,67 +25,24 @@ class Main {
         elapsedTime = finishTime - startTime;
         System.out.println("elapsedTime(ms) : " + elapsedTime);
 
-        System.out.println("\n직접 작성");
-        startTime= System.currentTimeMillis();
-        solution1(N,arr);
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-
-        System.out.println("elapsedTime(ms) : " + elapsedTime);
-
-
-        System.out.println("\n수정본 (대각선 내부에서 구함)");
-        startTime= System.currentTimeMillis();
-        solution2(N,arr);
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-
-        System.out.println("elapsedTime(ms) : " + elapsedTime);
-
-
-        System.out.println("\n수정본 (대각선 외부에서 구함)");
-        startTime= System.currentTimeMillis();
-        solution3(N,arr);
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-
-        System.out.println("elapsedTime(ms) : " + elapsedTime);
-
-
-        System.out.println("\n수정본 (대각선 내부에서 구함 + Math.max 안씀)");
-        startTime= System.currentTimeMillis();
-        solution4(N,arr);
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-        System.out.println("elapsedTime(ms) : " + elapsedTime);
-
-        System.out.println("\n수정본 (대각선 외부에서 구함 + Math.max 안씀)");
-        startTime= System.currentTimeMillis();
-        solution5(N,arr);
-        finishTime = System.currentTimeMillis();
-        elapsedTime = finishTime - startTime;
-
-        System.out.println("elapsedTime(ms) : " + elapsedTime);
     }
     /**
      *  내가 만든 코드
      *  단점 :
      *      1. 열의 합을 구할때 배열을 이용햇기 떄문에 쓸대없는 메모리 낭비를 했다 .
      *      2. 열의 합 배열중 가장 큰값을 구할때 반복문을 한번더 돌리기 때문에 시간 낭비를 했다.
-     *
+     *      결과적으로 시간소요는 따로 반복문 돌리는게 더빠르다 , 즉 1번 단점만 존재 2번은 아니다.
      *  궁금증 :
      *      1. 대각선을 구할때 O(N^2) 시간복잡도를 갖는 반복문 안에서 if 문을 사용하여 구했는데
      *          이게 따로 O(N) 시간을 갖는 반복문으로 빼서 따로 구하는게 더 빠를까?
-     *      결과 : 직접구현 , 수정본2개(대각선 외부, 내부 구현) 테스트 결과 직접 작성이 훨씬 빠른 속도를 보인다.
-     *              1<3<2 의 실행 시간을 보인다.
-     *      해석 : 확인해본 결과 1,2 는 열 구하는 부분과 최대값을 Math.max로 하냐 삼항 연산자로 하냐 차이 말고는 동일 하다,
-     *              열을 구하는건 2번이 더 효율적 일거 같은데 시간 차이가 나는 걸보면 Math.max가 함수이기 때문에 그런거같다.
-     *              이를 확인 하기 위해 Math.max를 사용하지않은 2의 개조 버젼인 4, 3의 Math.max를 사용하지않는 버전 5를 만들어봐야겟다.
+     *      결과 : 대각선은 따로 빼는게 더 빠르다
      *
-     * 결과
-     * 1<<3<<2<<<<4<<<<5 와 같은 양상을 보인다 .
-     * 1 을 Math.max 로 바꾼 0 버젼과 1버젼의 실행시간 차이가 나지않는걸보아 저 문제는 아닌거같다.
-     * Math.max( A ,MAth.max(B,C) ) 를 사용하는것과 2줄로 만든것의 차이도 보이지않는다.
+     *      2. Math.max , 삼항연산자 , if () A =B 이것들중 누가 제일 빠른가
+     *      결과 : if 문이 제일 느리고 나머지 두개는 비슷하다.
+     *
+     *      3. 0,1 이 나머지보다 훨씬 빠른데 그 이유는?
+     *      결과 : a[i][j] 를 순차 접근할때 한 행씩 접근하는게 한 열씩 순회 하는것보다 훠~~~~~~~~~~얼~~~~~씬 빠르다.
+     *              그래서 나머지 부분들이 0,1보다 훨씬 느린거다
      *
      *
      */
@@ -111,6 +68,7 @@ class Main {
         result = result < crossSum[0] ? crossSum[0] : result;
         System.out.println(result);
     }
+
     static void solution0(int N,  int[][] arr) {
         int result =0;
         int[] rowSum =new int[N];
@@ -121,23 +79,20 @@ class Main {
             for (int j = 0; j < N; j++) {
                 rowSum[j] += arr[i][j];
                 sum += arr[i][j];
-                if(i==j) crossSum[0] += arr[i][j];
-                if(N-1-i ==j)crossSum[1] +=arr[i][j];
             }
             result = Math.max(sum,result);
         }
-        for (int i = 0; i < N; i++) {
-            if(rowSum[i] > result) result =rowSum[i] ;
+        for(int i =0;i<N;i++){
+            result = Math.max(rowSum[i],result);
         }
-       for (int i = 0; i < N; i++) {
-           crossSum[0] += arr[i][i];
-           crossSum[1] += arr[N-1-i][i];
-       }
-       crossSum[0] =  Math.max(crossSum[0],crossSum[1]);
+        for (int i = 0; i < N; i++) {
+            crossSum[0] += arr[i][i];
+            crossSum[1] += arr[N-1-i][i];
+        }
         result = Math.max(crossSum[0],result);
+        result = Math.max(crossSum[1],result);
         System.out.println(result);
     }
-
     /**
      *  기존 작성 코드에서 불필요한 코드를 보완한 코드이다.
      *
