@@ -45,7 +45,7 @@ class Main {
     }
     static boolean dfsV2(int[] arr, int index, int sum,int target) {
         if(sum==target) return true;
-        if(index+1>=arr.length ||sum>target) return false;
+        if(index==arr.length ||sum>target) return false;
         return dfs(arr,index+1,sum+arr[index],target) || dfs(arr, index + 1, sum, target);
     }
 }
