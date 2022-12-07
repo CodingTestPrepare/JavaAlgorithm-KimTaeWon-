@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        String arr = sc.next();
+        Stack<Character> stack = new Stack<>();
+        String answer = "";
+
+        for (int e = 0; e < arr.length(); e++) {
+            char tmp = arr.charAt(e);
+            if (tmp == ')') {
+                while (stack.pop() != '(');
+            } else {
+                stack.push(tmp);
+            }
+        }
+        for (int i = 0; i < stack.size(); i++) {
+            answer += stack.get(i);
+        }
+        System.out.println(answer);
+    }
+}
