@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        Stack<Integer> stack = new Stack();
+        int count;
+
+        for (char i : input.toCharArray()) {
+            if(Character.isDigit(i)) {
+                stack.push(i-48);
+            } else {
+                Integer x = stack.pop();
+                Integer y = stack.pop();
+                if(i == '+') {
+                    stack.push(y + x);
+                } else if(i == '-') {
+                    stack.push(y - x);
+                } else if(i == '*') {
+                    stack.push(y * x);
+                } else if(i == '/') {
+                    stack.push(y / x);
+                }
+            }
+        }
+        count = stack.get(0);
+        System.out.print(count);
+    }
+}
