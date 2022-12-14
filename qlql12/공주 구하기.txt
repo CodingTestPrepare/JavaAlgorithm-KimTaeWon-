@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        int input = sc.nextInt();
+        int x = sc.nextInt();
+        Queue<Integer> queue = new LinkedList<>();
+
+        for (int i = 0; i < input; i++) {
+            queue.add(i+1);
+        }
+
+        int z = 1, answer = 0;
+        while (!queue.isEmpty()){
+            if(z == x) {
+                z = 1;
+                queue.poll();
+                continue;
+            }
+            queue.add(queue.poll());
+            z++;
+            if(queue.size() == 1) {
+                answer = queue.peek();
+            }
+        }
+        System.out.print(answer);
+    }
+}
