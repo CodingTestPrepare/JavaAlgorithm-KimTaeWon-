@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        int[] arr = new int[x];
+        Queue<PriorityQueue> queue = new LinkedList<>();
+
+        for (int i = 0; i < x; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            queue.add(new PriorityQueue(i, arr[i]));
+        }
+
+        int answer = 0;
+        while (!queue.isEmpty()) {
+            PriorityQueue tmp = queue.poll();
+            for (PriorityQueue p: queue) {
+                if(p.value > tmp.value) {
+                    queue.add(tmp);
+                    tmp = null;
+                    break;
+                }
+            }
+            if (tmp != null) {
+                answer++;
+                if(tmp.priority == y) break;
+            }
+        }
+            System.out.print(answer);
+    }
+
+    public class PriorityQueue {
+        int priority;
+        int value;
+
+        public PriorityQueue(int priority, int value) {
+            this.priority = priority;
+            this.value = value;
+        }
+    }
+}
