@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Main codingTest = new Main();
+        codingTest.start();
+    }
+    public void start() {
+        Scanner sc = new Scanner(System.in);
+        int y = sc.nextInt();
+        int[] arr = new int[y];
+
+        for (int i = 0; i < y; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int[] tmp = arr.clone();
+        Arrays.sort(tmp);
+
+        ArrayList<Integer> answer = new ArrayList<>();
+        for (int i = 0; i < y; i++) {
+            if(arr[i] != tmp[i]) {
+                answer.add(i+1);
+            }
+        }
+
+        for (Integer x: answer) {
+            System.out.print(x + " ");
+        }
+    }
+}
